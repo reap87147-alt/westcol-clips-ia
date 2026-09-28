@@ -1,4 +1,3 @@
-
 <!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -75,10 +74,6 @@
       outline: none;
     }
 
-    input:focus {
-      border-color: #ffffff;
-    }
-
     button {
       width: 100%;
       margin-top: 15px;
@@ -92,8 +87,8 @@
       cursor: pointer;
     }
 
-    button:hover {
-      opacity: 0.9;
+    button:disabled {
+      opacity: 0.5;
     }
 
     #resultado {
@@ -133,10 +128,9 @@
   <h1>Westcol Clips IA</h1>
 
   <p class="descripcion">
-    Analiza videos y descubre qué hace que un contenido pueda llamar la atención.
+    Analiza videos y descubre qué elementos pueden captar la atención.
   </p>
 </div>
-
 
 <div class="tarjeta">
 
@@ -152,44 +146,35 @@
     placeholder="Pega aquí el enlace de TikTok..."
   >
 
-  <button onclick="analizarVideo()">
+  <button id="boton" onclick="analizarVideo()">
     🧠 Analizar video
   </button>
 
 </div>
 
-
 <div class="tarjeta" id="resultado">
 
-  <h2>📊 Análisis</h2>
+  <h2>📊 Resultado</h2>
 
   <div class="resultado-item">
-    <strong>🎯 Gancho</strong>
-    <p id="gancho"></p>
+    <strong>🎯 Estado</strong>
+    <p id="estado"></p>
   </div>
 
   <div class="resultado-item">
-    <strong>👀 Curiosidad</strong>
-    <p id="curiosidad"></p>
+    <strong>🔗 Enlace recibido</strong>
+    <p id="enlaceRecibido"></p>
   </div>
 
   <div class="resultado-item">
-    <strong>⚡ Ritmo</strong>
-    <p id="ritmo"></p>
-  </div>
-
-  <div class="resultado-item">
-    <strong>💡 Idea principal</strong>
-    <p id="idea"></p>
-  </div>
-
-  <div class="resultado-item">
-    <strong>🔥 Potencial del contenido</strong>
-    <p id="potencial"></p>
+    <strong>🧠 Próximo análisis</strong>
+    <p>
+      En la siguiente etapa conectaremos una IA para analizar
+      realmente el contenido del video.
+    </p>
   </div>
 
 </div>
-
 
 <div class="pie">
   Westcol Clips IA · Proyecto en desarrollo
@@ -197,32 +182,66 @@
 
   </div>  <script>
 
-    function analizarVideo() {
+    async function analizarVideo() {
 
       const enlace = document.getElementById("enlace").value.trim();
+      const boton = document.getElementById("boton");
+      const resultado = document.getElementById("resultado");
 
       if (enlace === "") {
         alert("Primero pega el enlace del video.");
         return;
       }
 
-      document.getElementById("resultado").style.display = "block";
+      boton.disabled = true;
+      boton.textContent = "⏳ Analizando...";
 
-      document.getElementById("gancho").textContent =
-        "El sistema analizará los primeros segundos del video para identificar qué elemento intenta captar la atención.";
+      resultado.style.display = "block";
 
-      document.getElementById("curiosidad").textContent =
-        "Se buscarán elementos que hagan que la persona quiera continuar viendo el video.";
+      document.getElementById("estado").textContent =
+        "Enviando el enlace al servidor...";
 
-      document.getElementById("ritmo").textContent =
-        "Se analizará la velocidad de los cambios, acciones y momentos importantes del contenido.";
+      try {
 
-      document.getElementById("idea").textContent =
-        "Aquí aparecerá la explicación sencilla de lo que ocurre en el video.";
+        const respuesta = await fetch(
+          "https://westcol-clips-ia.vercel.app/api/analyze",
+          {
+            method: "POST",
 
-      document.getElementById("potencial").textContent =
-        "Aquí podremos identificar qué elementos del contenido podrían servir como inspiración para crear una versión propia.";
+            headers: {
+              "Content-Type": "application/json"
+            },
 
+            body: JSON.stringify({
+              enlace: enlace
+            })
+          }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+          throw new Error(datos.error || "Ocurrió un error");
+        }
+
+        document.getElementById("estado").textContent =
+          datos.mensaje;
+
+        document.getElementById("enlaceRecibido").textContent =
+          datos.enlace;
+
+      } catch (error) {
+
+        document.getElementById("estado").textContent =
+          "No se pudo conectar con el servidor.";
+
+        document.getElementById("enlaceRecibido").textContent =
+          error.message;
+
+      }
+
+      boton.disabled = false;
+      boton.textContent = "🧠 Analizar video";
     }
 
   </script></body>
