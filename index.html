@@ -1,20 +1,229 @@
-<!DOCTYPE html>
-<html lang="es">
+
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analizador de Videos</title>
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Westcol Clips IA</title>  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-<body>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: white;
+      min-height: 100vh;
+    }
 
-  <h1>Analizador de Videos IA</h1>
+    .contenedor {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      padding: 25px 18px;
+    }
 
-  <p>
-    Esta página nos ayudará a analizar videos y extraer información útil.
+    .encabezado {
+      text-align: center;
+      padding: 25px 10px;
+    }
+
+    .logo {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .descripcion {
+      color: #bdbdbd;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .tarjeta {
+      background: #191919;
+      border: 1px solid #2d2d2d;
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .tarjeta h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      color: #d5d5d5;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #3a3a3a;
+      background: #101010;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ffffff;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #resultado {
+      display: none;
+    }
+
+    .resultado-item {
+      background: #101010;
+      border: 1px solid #292929;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 12px;
+    }
+
+    .resultado-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .resultado-item p {
+      color: #c8c8c8;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .pie {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      margin-top: 30px;
+      padding-bottom: 20px;
+    }
+  </style></head><body>  <div class="contenedor"><div class="encabezado">
+  <div class="logo">🤖</div>
+
+  <h1>Westcol Clips IA</h1>
+
+  <p class="descripcion">
+    Analiza videos y descubre qué hace que un contenido pueda llamar la atención.
   </p>
+</div>
 
-  <button>Analizar video</button>
 
-</body>
+<div class="tarjeta">
+
+  <h2>🔎 Analizar un video</h2>
+
+  <label for="enlace">
+    Pega aquí el enlace del video
+  </label>
+
+  <input
+    type="text"
+    id="enlace"
+    placeholder="Pega aquí el enlace de TikTok..."
+  >
+
+  <button onclick="analizarVideo()">
+    🧠 Analizar video
+  </button>
+
+</div>
+
+
+<div class="tarjeta" id="resultado">
+
+  <h2>📊 Análisis</h2>
+
+  <div class="resultado-item">
+    <strong>🎯 Gancho</strong>
+    <p id="gancho"></p>
+  </div>
+
+  <div class="resultado-item">
+    <strong>👀 Curiosidad</strong>
+    <p id="curiosidad"></p>
+  </div>
+
+  <div class="resultado-item">
+    <strong>⚡ Ritmo</strong>
+    <p id="ritmo"></p>
+  </div>
+
+  <div class="resultado-item">
+    <strong>💡 Idea principal</strong>
+    <p id="idea"></p>
+  </div>
+
+  <div class="resultado-item">
+    <strong>🔥 Potencial del contenido</strong>
+    <p id="potencial"></p>
+  </div>
+
+</div>
+
+
+<div class="pie">
+  Westcol Clips IA · Proyecto en desarrollo
+</div>
+
+  </div>  <script>
+
+    function analizarVideo() {
+
+      const enlace = document.getElementById("enlace").value.trim();
+
+      if (enlace === "") {
+        alert("Primero pega el enlace del video.");
+        return;
+      }
+
+      document.getElementById("resultado").style.display = "block";
+
+      document.getElementById("gancho").textContent =
+        "El sistema analizará los primeros segundos del video para identificar qué elemento intenta captar la atención.";
+
+      document.getElementById("curiosidad").textContent =
+        "Se buscarán elementos que hagan que la persona quiera continuar viendo el video.";
+
+      document.getElementById("ritmo").textContent =
+        "Se analizará la velocidad de los cambios, acciones y momentos importantes del contenido.";
+
+      document.getElementById("idea").textContent =
+        "Aquí aparecerá la explicación sencilla de lo que ocurre en el video.";
+
+      document.getElementById("potencial").textContent =
+        "Aquí podremos identificar qué elementos del contenido podrían servir como inspiración para crear una versión propia.";
+
+    }
+
+  </script></body>
 </html>
